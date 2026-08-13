@@ -14,9 +14,14 @@ workflows:
           mv *.css www/ 2>/dev/null || true
           npx cap init "Dnd Character Tracker" "com.dnd.app" --web-dir="www"
           npx cap add android
-      - name: Build Android Package
+     - name: Build Android Package
         script: |
+          # CHOOSE JAVA 21:
+          sdk use java 17.0.10-sem || sdk use java 21.0.2-tem || true
+          # (Note: Codemagic provides Java 21 via SDKMAN; alternatively use the environment property below if available)
+          
           cd android
+          chmod +x gradlew
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/apk/release/*.apk
