@@ -2,25 +2,29 @@ workflows:
   android-html-app:
     name: Build HTML App to APK
     max_build_duration: 15
+    environment:
+      # Sets the virtual machine environment to Java 21 
+      java: 21
     scripts:
       - name: Install Node dependencies and Capacitor
         script: |
           npm install
           npm install @capacitor/core @capacitor/cli
           npm install @capacitor/android
+          
+          # Fix: Create the asset directory and move your web resources into it
           mkdir www
           mv index.html www/ 2>/dev/null || true
           mv *.js www/ 2>/dev/null || true
           mv *.css www/ 2>/dev/null || true
+          
+          # Fix: Unattended initialization pointing directly to the asset folder
           npx cap init "Dnd Character Tracker" "com.dnd.app" --web-dir="www"
           npx cap add android
-     - name: Build Android Package
+      - name: Build Android Package
         script: |
-          # CHOOSE JAVA 21:
-          sdk use java 17.0.10-sem || sdk use java 21.0.2-tem || true
-          # (Note: Codemagic provides Java 21 via SDKMAN; alternatively use the environment property below if available)
-          
           cd android
+          # Fix: Grant executable permissions to the Gradle wrapper
           chmod +x gradlew
           ./gradlew assembleRelease
     artifacts:
