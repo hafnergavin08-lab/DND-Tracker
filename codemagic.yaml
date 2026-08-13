@@ -8,6 +8,10 @@ workflows:
           npm install
           npm install @capacitor/core @capacitor/cli
           npm install @capacitor/android
+          mkdir www
+          mv index.html www/ 2>/dev/null || true
+          mv *.js www/ 2>/dev/null || true
+          mv *.css www/ 2>/dev/null || true
           npx cap init "Dnd Character Tracker" "com.dnd.app"
           echo '{"appId": "com.dnd.app", "appName": "Dnd Character Tracker", "webDir": "."}' > capacitor.config.json
           npx cap add android
