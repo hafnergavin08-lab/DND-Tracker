@@ -7,7 +7,8 @@ workflows:
         script: |
           npm install
           npm install @capacitor/core @capacitor/cli
-          npx cap init "Dnd Character Tracker" "com.dnd.app" --web.dir=.
+          npx cap init "Dnd Character Tracker" "com.dnd.app"
+          echo '{"appId": "com.dnd.app", "appName": "Dnd Character Tracker", "webDir": "."}' > capacitor.config.json
           npx cap add android
       - name: Build Android Package
         script: |
